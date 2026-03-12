@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>AI Speech Sentiment Analyzer</title>
+
+<link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600&display=swap" rel="stylesheet">
+
+</head>
+
+<body>
+
+<div class="gradient-bg"></div>
+
+<div class="container">
+
+<h1>🎙 AI Speech Sentiment Analyzer</h1>
+<p class="subtitle">Upload your audio and detect emotions instantly</p>
+
+<form method="POST" enctype="multipart/form-data" class="upload-box">
+
+<label class="drop-area" id="drop-area">
+
+<input type="file" name="audio" accept="audio/*" required id="fileInput">
+
+<div class="upload-content">
+
+<div class="upload-icon">🎧</div>
+
+<p>Drag & Drop Audio File</p>
+
+<span>or click to browse</span>
+
+</div>
+
+</label>
+
+<div id="file-name"></div>
+
+<button type="submit">Analyze Emotion</button>
+
+</form>
+
+{% if transcription %}
+
+<div class="result">
+
+<div class="card">
+
+<h2>📝 Transcription</h2>
+
+<p>{{ transcription }}</p>
+
+</div>
+
+<div class="card sentiment">
+
+<h2>😊 Sentiment Result</h2>
+
+<p class="sentiment-text">{{ sentiment }}</p>
+
+</div>
+
+</div>
+
+{% endif %}
+
+</div>
+
+<script>
+
+const dropArea = document.getElementById("drop-area");
+const fileInput = document.getElementById("fileInput");
+const fileName = document.getElementById("file-name");
+
+fileInput.addEventListener("change", () => {
+fileName.textContent = "Selected file: " + fileInput.files[0].name;
+});
+
+dropArea.addEventListener("dragover", (e) => {
+e.preventDefault();
+dropArea.classList.add("dragging");
+});
+
+dropArea.addEventListener("dragleave", () => {
+dropArea.classList.remove("dragging");
+});
+
+dropArea.addEventListener("drop", (e) => {
+e.preventDefault();
+fileInput.files = e.dataTransfer.files;
+fileName.textContent = "Selected file: " + fileInput.files[0].name;
+dropArea.classList.remove("dragging");
+});
+
+</script>
+
+</body>
+</html>
